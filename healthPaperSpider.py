@@ -11,6 +11,13 @@ import requests
 import lxml
 import lxml.html as html
 
+import threading
+
+
+from multiprocessing.dummy import Pool as Threadpool
+
+lock1 = threading.Lock()
+
 DATE_DONE = './dates_done.txt'
 DATE_LIST_FILE = './dates.txt'
 COOKIES_RAW = './cookies.txt'
@@ -65,6 +72,8 @@ class healthPaperSpider(object):
 
         url = url_prefix + url_last_path
         req = self.spider.get(url)
+        if req.status_code  == 404:
+            return  
         dom = html.fromstring(req.text)
 
         title_xpath = '//td[@class="title"]/text()'
@@ -155,6 +164,10 @@ class healthPaperSpider(object):
             print(url_prefix, url_last_path, channel, html_dir_path)
             self.scrapy_chapter(url_prefix, url_last_path, channel, html_dir_path)
             time.sleep(0.1)
+        lock1.acquire()
+        with open(DATE_DONE, 'a') as f:
+            print(date, file=f)
+        lock1.release()
 
     def run(self):
         ''' 爬虫总控制 '''
@@ -162,15 +175,16 @@ class healthPaperSpider(object):
         dates_done = self.read_dates(DATE_DONE)
         dates = set(dates) - set(dates_done)
         dates = sorted([i for i in list(dates) if len(i) > 0])
-        # print(dates)
-        f = open(DATE_DONE, 'a')
-        for date in dates:
-            try:
-                self.scrapy(date)
-                print(date, file=f)
-            except Exception as e:
-                print(e)
-
+        print(dates)
+        excepts = []
+        # for date in dates:
+        #     if date not in excepts:
+        #         print(date)
+        #         self.scrapy(date)
+        # 多线程池开启
+        pool = Threadpool(5)
+        pool.map(self.scrapy, dates)
+        pool.close()
 
 
 def main():
