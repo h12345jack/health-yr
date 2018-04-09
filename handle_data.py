@@ -157,7 +157,7 @@ def main():
     print(args.tn, args.flag, args.word)
     if args.word == '1':
         print('word segment! 等待2个小时吧= =')
-        # word_segments()
+        word_segments()
     word_with_pos = WORD_WITH_POS
     word_with_pos = True if args.flag == '1' else False
     topic_num = LDA_TOPIC_NUM
