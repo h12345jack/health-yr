@@ -1,0 +1,9 @@
+.vscode 
+data/
+venv/
+*.swp
+*.jl
+*.zip
+*.log
+models/
+*.html
