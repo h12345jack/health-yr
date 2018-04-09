@@ -3,3 +3,4 @@ data/
 venv/
 .Ds_Store
 *.zip
+.vscode/
