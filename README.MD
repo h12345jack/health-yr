@@ -1,5 +1,28 @@
 # 一个简单的程序
 
+
+## Basic
+
+首先安装git，如果装了brew
+
+```
+git clone https://github.com/h12345jack/health-yr.git
+```
+然后cd到目录下
+
+```
+cd health-yr
+```
+
+update新的代码
+
+```
+git pull
+```
+
+
+## 项目相关 
+
 首先把数据解压到data文件夹下,得到如下的数据安放：
 
 ![](./desc-imgs/img1.png)
