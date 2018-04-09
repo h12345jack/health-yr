@@ -116,7 +116,7 @@ def word_segments():
                             print(fpath,e, file=error_f)
     
 def lda_main(word_with_pos = WORD_WITH_POS, topic_num = LDA_TOPIC_NUM):
-    LDA_MODEL = './models/lda_{}.model'.format(LDA_TOPIC_NUM)
+    LDA_MODEL = './models/lda_{}.model'.format(topic_num)
     stop_word = read_stopword()
     begin_t = time.time() 
     def func(line):
