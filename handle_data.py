@@ -81,15 +81,15 @@ def handle_file(fpath):
         content = content.replace('\n','')
         content = content.replace('\r','')
         content = content.replace('\t','')
-        content = content.replace('  ','')
+        content = content.replace(r'\s{2,}','')
         dom = html.fromstring(content)
         content = dom.xpath("//text()")
-        cut_word = lambda x: [i for i in pseg.cut(x.strip()) if i[0].strip()]
+        cut_word = lambda x: [i for i in pseg.cut(x.strip())]
         result = []
         for i in content:
             cw = cut_word(i)
             if len(cw) > 0:
-                result.extend([(w, pos) for w, pos in cw])
+                result.extend([(w, pos) for w, pos in cw if w.strip()])
         json_data["content"] = result
         return json_data
 
@@ -139,7 +139,7 @@ def lda_main(word_with_pos = WORD_WITH_POS, topic_num = LDA_TOPIC_NUM):
         words = []
         for i in f.readlines():
             words.append(func(i))
-        print('data loaded! use ', time.time()-begin_t, 'sec.\n begin lda modeling')
+        print('数据装载完毕！ use ', time.time()-begin_t, 'sec.\n begin lda modeling')
         dic = corpora.Dictionary(words)
         corpus = [dic.doc2bow(text) for text in words]
         dic.save(DICTIONARY_PATH)
@@ -149,14 +149,14 @@ def lda_main(word_with_pos = WORD_WITH_POS, topic_num = LDA_TOPIC_NUM):
         vis_data = pyLDAvis.gensim.prepare(lda, corpus, dic)
         vis_html_path = 'ldavis_{}.html'.format(topic_num)
         pyLDAvis.save_html(vis_data, vis_html_path)
-        print('lda model done!\ntotal use:', time.time()- begin_t, 'sec.')
+        print('LDA 建模完成!\nTotal use:', time.time()- begin_t, 'sec.')
 
 
 def main():
     args = parse_args()
     print(args.tn, args.flag, args.word)
     if args.word == '1':
-        print('word segment! 等待2个小时吧= =')
+        print('切词中! 等待1个小时吧= =')
         word_segments()
     word_with_pos = WORD_WITH_POS
     word_with_pos = True if args.flag == '1' else False
