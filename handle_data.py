@@ -84,7 +84,7 @@ def handle_file(fpath):
         content = content.replace('  ','')
         dom = html.fromstring(content)
         content = dom.xpath("//text()")
-        cut_word = lambda x: [i for i in pseg.cut(x.strip())]
+        cut_word = lambda x: [i for i in pseg.cut(x.strip()) if i[0].strip()]
         result = []
         for i in content:
             cw = cut_word(i)
