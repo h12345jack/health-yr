@@ -74,7 +74,6 @@ def handle_file(fpath):
     '''
     处理数据，切词返回
     '''
-    jieba.load_userdict(USER_DICT)
     with open(fpath, encoding='utf8') as f:
         json_data = json.loads(f.read())
         content = json_data["content"]
@@ -97,6 +96,8 @@ def word_segments():
     '''
     遍历文件，然后将需要的文件导出来
     '''
+    i = 0
+    jieba.load_userdict(USER_DICT)
     jl_f = open(DATA_JSONLINE, 'w')
     error_f = open('error.log', 'w')
     for a in os.listdir(DATA_DIR):
@@ -111,6 +112,8 @@ def word_segments():
                             datas = handle_file(fpath)
                             datas["path"] = fpath
                             jl_f.write(json.dumps(datas)+'\n')
+                            i = i+1
+                            if i>100: return 
                         except Exception as e:
                             # print(e, fpath)
                             print(fpath,e, file=error_f)
