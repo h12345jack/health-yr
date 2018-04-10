@@ -96,7 +96,6 @@ def word_segments():
     '''
     遍历文件，然后将需要的文件导出来
     '''
-    i = 0
     jieba.load_userdict(USER_DICT)
     jl_f = open(DATA_JSONLINE, 'w')
     error_f = open('error.log', 'w')
@@ -112,8 +111,6 @@ def word_segments():
                             datas = handle_file(fpath)
                             datas["path"] = fpath
                             jl_f.write(json.dumps(datas)+'\n')
-                            i = i+1
-                            if i>100: return 
                         except Exception as e:
                             # print(e, fpath)
                             print(fpath,e, file=error_f)
