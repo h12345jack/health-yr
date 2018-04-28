@@ -12,6 +12,12 @@ import lxml
 import lxml.html as html
 from lxml import etree
 
+import threading
+
+
+from multiprocessing.dummy import Pool as Threadpool
+
+lock1 = threading.Lock()
 
 DATE_DONE = './dates_done.txt'
 DATE_LIST_FILE = './dates.txt'
@@ -92,7 +98,7 @@ def scrapy_index(i):
 
 def main():
     dones = read_dates(DATE_DONE)
-    dates = [str(i) for i in range1, 1210))]
+    dates = [str(i) for i in range(1, 1210)]
     dates = set(dates) - set(dones)
     pool = Threadpool(5)
     pool.map(scrapy_index, dates)
