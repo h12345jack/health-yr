@@ -100,6 +100,7 @@ def main():
     dones = read_dates(DATE_DONE)
     dates = [str(i) for i in range(1, 1210)]
     dates = set(dates) - set(dones)
+    print(len(dates), 'to scrapy')
     pool = Threadpool(5)
     pool.map(scrapy_index, dates)
     pool.close()
