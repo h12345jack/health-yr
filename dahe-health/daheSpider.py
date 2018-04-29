@@ -152,7 +152,6 @@ def main():
             time.sleep(1)
             # url = 'http://newpaper.dahe.cn/dhjkb/html/2011-10/11/node_364.htm'
             crawl_date(url.strip())
-            break
 
 if __name__ == "__main__":
     main()
